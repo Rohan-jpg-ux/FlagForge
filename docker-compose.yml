@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15.14-alpine
+    environment:
+      POSTGRES_DB: flagforge
+      POSTGRES_USER: flagforge
+      POSTGRES_PASSWORD: flagforge
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+  build: ./backend
+  depends_on:
+    - db
+  environment:
+    DB_HOST: db
+    DB_PORT: 5432
+    DB_NAME: flagforge
+    DB_USER: flagforge
+    DB_PASSWORD: flagforge
+    SPRING_FLYWAY_ENABLED: "true"
+    SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+  ports:
+    - "8080:8080"
+
+
+volumes:
+  dbdata:

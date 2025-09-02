@@ -1,0 +1,23 @@
+# filepath: flagforge-backend/.gitignore
+# Java / Gradle
+.gradle/
+build/
+out/
+*.class
+*.log
+
+# Docker / system
+**/.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Env
+.env
+# ignore build + gradle cache
+backend/build/
+backend/.gradle/
+backend/bin/
+# IDE
+.vscode/
